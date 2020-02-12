@@ -8778,7 +8778,10 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const context = github.context;
-            const defaultUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}/checks`;
+            const runId = core.getInput("run_id", { required: false });
+            const defaultUrl = runId
+                ? `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId}`
+                : "";
             const token = core.getInput("token", { required: true });
             const url = core.getInput("target_url", { required: false }) || defaultUrl;
             const environment = core.getInput("environment", { required: false }) || "production";

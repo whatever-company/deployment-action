@@ -8,6 +8,8 @@ inputs:
   initial_status:
     description: "Initial status for the deployment"
     default: "pending"
+  run_id:
+    description: "Id of the workflow run"
   token:
     description: "Github repository token"
   target_url:
