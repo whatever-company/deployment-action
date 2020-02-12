@@ -30,6 +30,11 @@ async function run() {
 
     const auto_merge: boolean = autoMergeStringInput === "true";
 
+    const transient_environment: boolean =
+      core.getInput("transient_environment", {
+        required: false
+      }) === "true";
+
     const client = new github.GitHub(token, { previews: ["flash", "ant-man"] });
 
     const deployment = await client.repos.createDeployment({
@@ -38,7 +43,7 @@ async function run() {
       ref: context.ref,
       required_contexts: [],
       environment,
-      transient_environment: true,
+      transient_environment,
       auto_merge,
       description
     });
@@ -47,8 +52,7 @@ async function run() {
       ...context.repo,
       deployment_id: deployment.data.id,
       state: initialStatus,
-      log_url: defaultUrl,
-      target_url: url
+      log_url: defaultUrl
     });
 
     core.setOutput("deployment_id", deployment.data.id.toString());
