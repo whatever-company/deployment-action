@@ -8784,6 +8784,7 @@ function run() {
                 : "";
             const token = core.getInput("token", { required: true });
             const url = core.getInput("target_url", { required: false }) || defaultUrl;
+            const ref = (core.getInput("ref", { required: false }) || context.ref).replace("refs/heads/", "");
             const environment = core.getInput("environment", { required: false }) || "production";
             const description = core.getInput("description", { required: false });
             const initialStatus = core.getInput("initial_status", {
@@ -8800,7 +8801,7 @@ function run() {
             const deployment = yield client.repos.createDeployment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: context.ref,
+                ref,
                 required_contexts: [],
                 environment,
                 transient_environment,
